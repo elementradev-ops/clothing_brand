@@ -86,25 +86,66 @@ export default function ShowroomExperience() {
   /* Not ready yet - show nothing to avoid flash */
   if (!ready) return null;
 
-  /* Mobile fallback */
+  /* Mobile – Cinematic image-based scroll experience */
   if (isMobile) {
+    const mobileSlides = [
+      { img: "/images/hero.png", title: "Welcome to BRAND", sub: "A World of Luxury Textiles", align: "center" as const },
+      { img: "/images/silk.png", title: "Step Inside", sub: "Where Every Detail Speaks Quality", align: "center" as const },
+      { img: "/images/craftsmanship.png", title: "The Showroom", sub: "Curated Collections. Timeless Craftsmanship.", align: "center" as const },
+      { img: "/images/product_silk.png", title: "Your Journey Begins", sub: "Experience Fabric Like Never Before", align: "center" as const },
+    ];
+
     return (
-      <div className="relative h-screen w-full flex items-center justify-center bg-charcoal overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/60 via-charcoal/30 to-charcoal/80 z-10" />
-        <img src="/images/hero.png" alt="Showroom" className="absolute inset-0 w-full h-full object-cover opacity-60" />
-        <div className="relative z-20 text-center px-6">
-          <div className="flex items-center gap-4 mb-6 justify-center">
-            <span className="w-12 h-px bg-gold/50" />
-            <span className="text-gold text-xs font-semibold tracking-[0.2em] uppercase">Virtual Showroom</span>
-            <span className="w-12 h-px bg-gold/50" />
+      <div className="relative bg-charcoal">
+        {mobileSlides.map((slide, i) => (
+          <div key={i} className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+            {/* Background image with parallax-like zoom */}
+            <img
+              src={slide.img}
+              alt={slide.title}
+              className="absolute inset-0 w-full h-full object-cover scale-110"
+              style={{ filter: "brightness(0.45) saturate(0.9)" }}
+            />
+
+            {/* Gradient overlays */}
+            <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-transparent to-charcoal/70 z-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent z-10" />
+
+            {/* Content */}
+            <div className="relative z-20 text-center px-6 max-w-lg">
+              {i === 0 && (
+                <div className="flex items-center gap-4 mb-8 justify-center">
+                  <span className="w-10 h-px bg-gold/60" />
+                  <span className="text-gold text-[10px] font-semibold tracking-[0.25em] uppercase">Virtual Showroom</span>
+                  <span className="w-10 h-px bg-gold/60" />
+                </div>
+              )}
+
+              <h2 className="font-serif text-4xl sm:text-5xl text-ivory mb-4 tracking-tight leading-[1.1]">
+                {slide.title}
+              </h2>
+              <p className="text-ivory/60 font-light text-sm leading-relaxed">
+                {slide.sub}
+              </p>
+
+              {/* Gold divider */}
+              <div className="mt-8 mx-auto w-12 h-px bg-gold/40" />
+            </div>
+
+            {/* Scroll hint on first slide */}
+            {i === 0 && (
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+                <span className="text-ivory/40 text-[9px] uppercase tracking-[0.2em] mb-2">Scroll</span>
+                <div className="w-px h-8 bg-gradient-to-b from-gold/50 to-transparent animate-pulse" />
+              </div>
+            )}
+
+            {/* Slide number indicator */}
+            <div className="absolute bottom-8 right-6 z-20 text-ivory/20 font-serif text-sm">
+              {String(i + 1).padStart(2, "0")} / {String(mobileSlides.length).padStart(2, "0")}
+            </div>
           </div>
-          <h2 className="font-serif text-4xl text-ivory mb-4 tracking-tight leading-[1.1]">
-            Step Into <br /> Our World
-          </h2>
-          <p className="text-ivory/60 font-light text-sm max-w-md mx-auto">
-            Experience our luxury showroom on desktop for the full immersive 3D walkthrough.
-          </p>
-        </div>
+        ))}
       </div>
     );
   }
