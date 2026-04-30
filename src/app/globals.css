@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-inter);
+  --color-ivory: #F8F6F2;
+  --color-charcoal: #1A1A1A;
+  --color-gold: #C9A227;
+  --color-beige: #E8DFD6;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+    /* Subtly woven texture via data URI (faint dot pattern to simulate fabric grain) */
+    background-image: radial-gradient(var(--color-charcoal) 0.5px, transparent 0.5px), radial-gradient(var(--color-charcoal) 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    background-attachment: fixed;
+    /* We make it incredibly faint to preserve the luxury feel */
+  }
+  
+  /* Create an overlay layer for the texture to be super faint */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--color-ivory);
+    opacity: 0.98;
+    z-index: -1;
+    pointer-events: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Custom Cursor Defaults to hide native cursor */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  a, button, [role="button"], input, select, textarea {
+    cursor: none !important;
+  }
+}
+
+/* Spotlight glow for CTA */
+.spotlight-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(201, 162, 39, 0.15) 0%, rgba(26, 26, 26, 0) 50%);
 }
